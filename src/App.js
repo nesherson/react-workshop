@@ -6,7 +6,7 @@ class Random extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: [125, 75, 255],
+      color: [0, 0, 0],
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -45,7 +45,6 @@ class Random extends React.Component {
     this.setState({
       color: this.chooseColor(),
     });
-    console.log('Success');
   }
 
   render() {
@@ -54,7 +53,7 @@ class Random extends React.Component {
         <h1 className={this.isLight() ? 'white' : 'black'}>
           This color is {this.formatColor(this.state.color)}
         </h1>
-        <Button light={this.isLight} onCLick={this.handleClick} />
+        <Button light={this.isLight} onClick={this.handleClick} />
       </div>
     );
   }
