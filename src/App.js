@@ -56,8 +56,4 @@ class App extends React.Component {
   }
 }
 
-function App() {
-  return <App />;
-}
-
 export default App;
