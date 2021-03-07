@@ -1,59 +1,64 @@
 import './App.css';
-import React from 'react';
-import { Profile } from './Profile';
-import { Directory } from './Directory';
+import React, { Component } from 'react';
+import NewTask from './NewTask';
+import TasksList from './TasksList';
 
-class App extends React.Component {
+class AppClass extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUsername: null,
+      newTask: {},
+      allTasks: [],
     };
-    this.handleChoose = this.handleChoose.bind(this);
-    this.handleReturnToDirectoryClick = this.handleReturnToDirectoryClick.bind(
-      this
-    );
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
-  handleChoose(newUsername) {
-    this.setState({ currentUsername: newUsername });
+  handleChange({ target }) {
+    const { name, value } = target;
+    this.setState((prevState) => ({
+      ...prevState,
+      newTask: {
+        ...prevState.newTask,
+        [name]: value,
+        id: Date.now(),
+      },
+    }));
   }
 
-  handleReturnToDirectoryClick() {
-    this.setState({ currentUsername: null });
+  handleSubmit(event) {
+    event.preventDefault();
+    if (!this.state.newTask.title) return;
+    this.setState((prevState) => ({
+      allTasks: [prevState.newTask, ...prevState.allTasks],
+      newTask: {},
+    }));
+  }
+
+  handleDelete(taskIdToRemove) {
+    this.setState((prevState) => ({
+      ...prevState,
+      allTasks: prevState.allTasks.filter((task) => task.id !== taskIdToRemove),
+    }));
   }
 
   render() {
-    let body;
-    if (this.state.currentUsername) {
-      body = (
-        <Profile
-          username={this.state.currentUsername}
-          onChoose={this.handleChoose}
-        />
-      );
-    } else {
-      body = <Directory onChoose={this.handleChoose} />;
-    }
-
     return (
-      <div className='App'>
-        <header>
-          <h1>PetBook</h1>
-
-          <nav>
-            {this.state.currentUsername && (
-              <button onClick={this.handleReturnToDirectoryClick}>
-                Return to directory
-              </button>
-            )}
-          </nav>
-        </header>
-
-        <main>{body}</main>
-      </div>
+      <main>
+        <h1>Tasks</h1>
+        <NewTask
+          newTask={this.state.newTask}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
+        />
+        <TasksList
+          allTasks={this.state.allTasks}
+          handleDelete={this.handleDelete}
+        />
+      </main>
     );
   }
 }
 
-export default App;
+export default AppClass;
