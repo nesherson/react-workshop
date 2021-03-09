@@ -1,86 +1,51 @@
 html,
 body {
-  margin: 4px;
   height: 100%;
   background-color: #ffffff;
   text-align: center;
+  margin: 0;
 }
 
 * {
   font-family: Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
 }
 
 #app {
-  position: relative;
-  height: 100%;
-  width: 100%;
+  padding: 8px;
 }
 
-h1 {
-  margin: 8px 0;
-}
-
-form {
+.content {
   display: flex;
-  flex-direction: column;
-  position: relative;
+  justify-content: space-evenly;
+  overflow: hidden;
 }
 
-input,
-textarea {
-  padding: 5px;
-}
-
-form button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 5px;
+section {
+  overflow: scroll;
+  max-height: 80vh;
+  padding: 0 40px 0;
+  margin: 20px;
 }
 
 ul {
   list-style: none;
-  text-align: center;
-}
-
-ul {
+  position: relative;
   padding: 0;
+  margin: 0;
 }
 
 li {
-  background-color: Cornsilk;
-  border: 1px solid BurlyWood;
-  border-radius: 5px 2px;
-  margin: 8px 0;
+  padding-left: 1.5em;
 }
 
-li div {
-  position: relative;
-}
-
-li div button {
+li:before {
   position: absolute;
-  top: 0;
-  right: 0;
-  background-color: transparent;
-  border: 0;
-  padding: 10px;
-  font-weight: bolder;
-  cursor: pointer;
-  border-radius: 5px;
+  content: '•';
+  color: green;
+  left: 0;
 }
 
-li div button:hover,
-li div button:focus {
-  box-shadow: 0 0 1px black;
-}
-
-li h2 {
-  background-color: NavajoWhite;
-  margin: 0;
-  padding: 4px;
-}
-
-li p {
-  margin: 8px;
+li.offline:before {
+  color: red;
 }
