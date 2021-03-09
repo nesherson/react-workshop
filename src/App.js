@@ -1,35 +1,63 @@
-import './App.css';
-import React, { useState } from 'react';
-import NewTask from './NewTask';
-import TasksList from './TasksList';
+import React, { useState, useEffect } from 'react';
+import { get } from './mockBackend/fetch';
 
-export default function AppFunction() {
-  const [newTask, setNewTask] = useState({});
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setNewTask((prev) => ({ ...prev, id: Date.now(), [name]: value }));
-  };
+export default function App() {
+  const [data, setData] = useState(null);
 
-  const [allTasks, setAllTasks] = useState([]);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (!newTask.title) return;
-    setAllTasks((prev) => [newTask, ...prev]);
-    setNewTask({});
-  };
-  const handleDelete = (taskIdToRemove) => {
-    setAllTasks((prev) => prev.filter((task) => task.id !== taskIdToRemove));
-  };
+  useEffect(() => {
+    Promise.all([get('/menu'), get('/news-feed'), get('/friends')]).then(
+      ([menuResponse, newsFeedResponse, friendsResponse]) => {
+        setData({
+          menu: menuResponse.data,
+          newsFeed: newsFeedResponse.data,
+          friends: friendsResponse.data,
+        });
+      }
+    );
+  }, []);
 
   return (
-    <main>
-      <h1>Tasks</h1>
-      <NewTask
-        newTask={newTask}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-      />
-      <TasksList allTasks={allTasks} handleDelete={handleDelete} />
-    </main>
+    <div className='App'>
+      <h1>My Network</h1>
+      {!data || !data.menu ? (
+        <p>Loading..</p>
+      ) : (
+        <nav>
+          {data.menu.map((menuItem) => (
+            <button key={menuItem}>{menuItem}</button>
+          ))}
+        </nav>
+      )}
+      <div className='content'>
+        {!data || !data.newsFeed ? (
+          <p>Loading..</p>
+        ) : (
+          <section>
+            {data.newsFeed.map(({ id, title, message, imgSrc }) => (
+              <article key={id}>
+                <h3>{title}</h3>
+                <p>{message}</p>
+                <img src={imgSrc} alt='' />
+              </article>
+            ))}
+          </section>
+        )}
+        {!data || !data.friends ? (
+          <p>Loading..</p>
+        ) : (
+          <aside>
+            <ul>
+              {data.friends
+                .sort((a, b) => (a.isOnline && !b.isOnline ? -1 : 0))
+                .map(({ id, name, isOnline }) => (
+                  <li key={id} className={isOnline ? 'online' : 'offline'}>
+                    {name}
+                  </li>
+                ))}
+            </ul>
+          </aside>
+        )}
+      </div>
+    </div>
   );
 }
