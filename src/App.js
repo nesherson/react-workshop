@@ -1,81 +1,38 @@
 import './App.css';
-import React, { useState, useEffect } from 'react';
-import { get } from './mockBackend/fetch';
+import React, { useState } from 'react';
+import { AddThoughtForm } from './AddThoughtForm';
+import { Thought } from './Thought';
+import { generateId, getNewExpirationTime } from './utilities';
 
-export default function App() {
-  /*useEffect(() => {
-    Promise.all([get('/menu'), get('/news-feed'), get('/friends')]).then(
-      ([menuResponse, newsFeedResponse, friendsResponse]) => {
-        setMenu(menuResponse.data);
-        setNewsFeed(newsFeedResponse.data);
-        setFriends(friendsResponse.data);
-      }
-    );
-  }, []);
-*/
-  const [menu, setMenu] = useState(null);
-  useEffect(() => {
-    get('/menu').then((menuResponse) => {
-      setMenu(menuResponse.data);
-    });
-  }, []);
-
-  const [newsFeed, setNewsFeed] = useState(null);
-  useEffect(() => {
-    get('/news-feed').then((newsFeedResponse) => {
-      setNewsFeed(newsFeedResponse.data);
-    });
-  }, []);
-
-  const [friends, setFriends] = useState(null);
-  useEffect(() => {
-    get('/friends').then((friendsResponse) => {
-      setFriends(friendsResponse.data);
-    });
-  }, []);
+function App() {
+  const [thoughts, setThoughts] = useState([
+    {
+      id: generateId(),
+      text: 'This is a place for your passing thoughts.',
+      expiresAt: getNewExpirationTime(),
+    },
+    {
+      id: generateId(),
+      text: "They'll be removed after 15 seconds.",
+      expiresAt: getNewExpirationTime(),
+    },
+  ]);
 
   return (
     <div className='App'>
-      <h1>My Network</h1>
-      {!menu ? (
-        <p>Loading..</p>
-      ) : (
-        <nav>
-          {menu.map((menuItem) => (
-            <button key={menuItem}>{menuItem}</button>
+      <header>
+        <h1>Passing Thoughts</h1>
+      </header>
+      <main>
+        <AddThoughtForm />
+        <ul className='thoughts'>
+          {thoughts.map((thought) => (
+            <Thought key={thought.id} thought={thought} />
           ))}
-        </nav>
-      )}
-      <div className='content'>
-        {!newsFeed ? (
-          <p>Loading..</p>
-        ) : (
-          <section>
-            {newsFeed.map(({ id, title, message, imgSrc }) => (
-              <article key={id}>
-                <h3>{title}</h3>
-                <p>{message}</p>
-                <img src={imgSrc} alt='' />
-              </article>
-            ))}
-          </section>
-        )}
-        {!friends ? (
-          <p>Loading..</p>
-        ) : (
-          <aside>
-            <ul>
-              {friends
-                .sort((a, b) => (a.isOnline && !b.isOnline ? -1 : 0))
-                .map(({ id, name, isOnline }) => (
-                  <li key={id} className={isOnline ? 'online' : 'offline'}>
-                    {name}
-                  </li>
-                ))}
-            </ul>
-          </aside>
-        )}
-      </div>
+        </ul>
+      </main>
     </div>
   );
 }
+
+export default App;

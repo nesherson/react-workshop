@@ -1,51 +1,72 @@
-html,
 body {
-  height: 100%;
-  background-color: #ffffff;
-  text-align: center;
   margin: 0;
+  font-size: 16pt;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  font-family: Helvetica, Arial, sans-serif;
+input,
+button {
+  font: inherit;
   box-sizing: border-box;
 }
 
-#app {
-  padding: 8px;
+input[type='submit'],
+button {
+  cursor: pointer;
 }
 
-.content {
+.App {
+  margin: 0 auto;
+  max-width: 600px;
+  width: 95%;
+}
+
+.App h1:before {
+  content: '💭';
+  margin-right: 0.5em;
+}
+
+.AddThoughtForm {
   display: flex;
-  justify-content: space-evenly;
-  overflow: hidden;
+  flex-wrap: wrap;
 }
 
-section {
-  overflow: scroll;
-  max-height: 80vh;
-  padding: 0 40px 0;
-  margin: 20px;
+.AddThoughtForm input {
+  padding: 1.5rem;
+  border: 1px solid #666;
+  border-radius: 3px;
 }
 
-ul {
-  list-style: none;
-  position: relative;
+.AddThoughtForm input[type='text'] {
+  flex-grow: 1;
+  margin-right: 0.5rem;
+}
+
+.thoughts {
+  list-style-type: none;
   padding: 0;
-  margin: 0;
 }
 
-li {
-  padding-left: 1.5em;
+.Thought {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 3px;
+  background-color: #eee;
 }
 
-li:before {
-  position: absolute;
-  content: '•';
-  color: green;
-  left: 0;
+.Thought .remove-button {
+  font-size: 80%;
+  float: right;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
 }
 
-li.offline:before {
-  color: red;
+.Thought .remove-button:hover {
+  color: #fff;
+  background-color: #000;
 }
