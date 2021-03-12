@@ -1,5 +1,7 @@
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
+import Video from './Video';
+import Menu from './Menu';
 
 const VIDEOS = {
   fast: 'https://content.codecademy.com/courses/React/react_video-fast.mp4',
@@ -15,12 +17,16 @@ class App extends React.Component {
     this.state = { src: VIDEOS.fast };
   }
 
+  changeVideo(newVideo) {
+    this.state({});
+  }
+
   render() {
     return (
       <div>
         <h1>Video Player</h1>
         <Menu />
-        <Video />
+        <Video src={this.state.src} />
       </div>
     );
   }
