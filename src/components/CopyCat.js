@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { styles } from '../styles.js';
+import PropTypes from 'prop-types';
 
 const images = {
   copycat:
@@ -8,36 +9,37 @@ const images = {
     'https://content.codecademy.com/courses/React/react_photo_quietcat.png',
 };
 
-class CopyCat extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      copying: true,
-    };
-
-    this.toggleTape = this.toggleTape.bind(this);
-  }
-
-  toggleTape() {
-    this.setState({ copying: !this.state.copying });
-  }
-
+export class CopyCat extends React.Component {
   render() {
-    const copying = this.state.copying;
-    const toggleTape = this.toggleTape;
+    const copying = this.props.copying;
+    const toggleTape = this.props.toggleTape;
 
     return (
-      <div>
-        <h1>Copy Cat</h1>
+      <div styles={styles.divStyles}>
+        <h1 styles={{ marginBottom: '80px' }}>
+          Copy Cat {!this.props.name ? 'Tom' : this.props.name}
+        </h1>
+        <input
+          type='text'
+          value={this.props.input}
+          onChange={this.props.handleChange}
+        />
         <img
+          style={styles.imgStyles}
           alt='cat'
           src={copying ? images.copycat : images.quietcat}
           onClick={toggleTape}
         />
+        <p>{copying ? this.props.input : ''}</p>
       </div>
     );
   }
 }
 
-ReactDOM.render(<CopyCat />, document.getElementById('app'));
+CopyCat.propTypes = {
+  name: PropTypes.string,
+  copying: PropTypes.bool,
+  toggleTape: PropTypes.func,
+  input: PropTypes.string,
+  handleChange: PropTypes.func,
+};
