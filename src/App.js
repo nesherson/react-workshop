@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,15 +9,38 @@ import {
   useParams,
   useHistory,
 } from 'react-router-dom';
+import { PrivateRoute } from './PrivateRoute';
+import Login, { fakeAuth } from './Login';
+import { Nav } from './Nav';
+import { About } from './About';
+import { Users } from './Users';
+import { User } from './User';
 
 const App = () => {
   return (
+    <div>
+      <Nav />
+      <Switch>
+        <Route exact path='/' />
+        <Route path='/about' component={About} />
+        <Route exact path='/users' component={Users} />
+        <Route path='/users/:id' component={User} />
+      </Switch>
+    </div>
+  );
+  /*return (
     <div className='App'>
       <Header />
       <Switch>
         <Route exact path='/' component={Home} />
         <Route path='/items' component={Items} />
         <Route path='/category' component={Category} />
+        <Route path='/login' component={Login} />
+        <PrivateRoute
+          path='/admin'
+          component={Admin}
+          isAuthenticated={fakeAuth.isAuthenticated}
+        />
       </Switch>
     </div>
   );
@@ -34,6 +58,9 @@ export const Header = () => (
       </li>
       <li>
         <Link to='/category'>Category</Link>
+      </li>
+      <li>
+        <Link to='/admin'>Admin</Link>
       </li>
     </ul>
   </header>
@@ -92,4 +119,13 @@ export const Category = (props) => {
     </div>
   );
 };
+
+export const Admin = () => (
+  <div>
+    <h1>Protected Admin Component</h1>
+    <p>You now access to this component because you are logged in.</p>
+  </div>
+); */
+};
+
 export default App;
