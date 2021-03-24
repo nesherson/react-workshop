@@ -9,67 +9,87 @@ import {
   useHistory,
 } from 'react-router-dom';
 
-function BlogPost() {
-  let history = useHistory();
-
-  function handleClick() {
-    history.push('/');
-  }
-
+const App = () => {
   return (
-    <button type='button' onClick={handleClick}>
-      Go home
-    </button>
+    <div className='App'>
+      <Header />
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <Route path='/items' component={Items} />
+        <Route path='/category' component={Category} />
+      </Switch>
+    </div>
   );
-}
+};
 
-function HomePage() {
-  const { homepage } = useParams();
-  return <h2>Home Page -- {homepage}</h2>;
-}
+export const Header = () => (
+  <header className='App-header'>
+    <h1 className='App-title'>React Routing Example</h1>
+    <ul>
+      <li>
+        <Link to='/'>Home</Link>
+      </li>
+      <li>
+        <Link to='/items'>Items</Link>
+      </li>
+      <li>
+        <Link to='/category'>Category</Link>
+      </li>
+    </ul>
+  </header>
+);
 
-function About() {
-  return <h2>About Page</h2>;
-}
+export const Home = () => (
+  <div>
+    <h1> Home Component</h1>
+    <div>
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+      Lorem Ipsum has been the industry's standard dummy text ever since the
+      1500s, when an unknown printer took a galley of type and scrambled it to
+      make a type specimen book. It has survived not only five centuries, but
+      also the leap into electronic typesetting, remaining essentially
+      unchanged. It was popularised in the 1960s with the release of Letraset
+      sheets containing Lorem Ipsum passages, and more recently with desktop
+      publishing software like Aldus PageMaker including versions of Lorem
+      Ipsum.
+    </div>
+  </div>
+);
 
-function Contact() {
-  return <h2>Contact</h2>;
-}
+export const Items = () => (
+  <div>
+    <h1>Items Component</h1>
+    <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+      <li>Item 4</li>
+    </ul>
+  </div>
+);
 
-export default function App() {
+export const Category = (props) => {
+  console.log(props);
   return (
-    <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to='/'>Home Page</Link>
-          </li>
-          <li>
-            <Link to='/about'>About</Link>
-          </li>
-          <li>
-            <Link to='/contact'>Contact</Link>
-          </li>
-          <li>
-            <Link to='/blogpost'>Blog Post</Link>
-          </li>
-        </ul>
-
-        <Switch>
-          <Route exact path='/'>
-            <HomePage />
-          </Route>
-          <Route path='/about'>
-            <About />
-          </Route>
-          <Route path='/Contact'>
-            <Contact />
-          </Route>
-          <Route path='/blogpost'>
-            <BlogPost />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <div>
+      <h1>Category Component</h1>
+      <h5>Click on a category</h5>
+      <ul>
+        <li>
+          <Link to={`${props.match.url}/shoes`}>Shoes</Link>
+        </li>
+        <li>
+          <Link to={`${props.match.url}/food`}>Food</Link>
+        </li>
+        <li>
+          <Link to={`${props.match.url}/dresses`}>Dresses</Link>
+        </li>
+      </ul>
+      <Route
+        path={`${props.match.path}/:name`}
+        render={(props) => <div>{props.match.params.name} category</div>}
+      />
+    </div>
   );
-}
+};
+export default App;
