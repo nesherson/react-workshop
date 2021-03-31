@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import produce from 'immer';
 
 const numRows = 50;
 const numCols = 50;
@@ -12,9 +13,38 @@ const App = () => {
     return rows;
   });
 
-  console.log(grid);
+  const gridStyle = {
+    display: 'grid',
+    gridTemplateColumns: `repeat(${numCols}, 20px)`,
+  };
 
-  return null;
+  const handleCellClick = (rowIndex, colIndex) => {
+    const newGrid = produce(grid, (gridCopy) => {
+      gridCopy[rowIndex][colIndex] = grid[rowIndex][colIndex] === 0 ? 1 : 0;
+    });
+    setGrid(newGrid);
+  };
+
+  return (
+    <div style={gridStyle}>
+      {grid.map((rows, rowIndex) =>
+        rows.map((cols, colIndex) => {
+          return (
+            <div
+              onClick={() => handleCellClick(rowIndex, colIndex)}
+              key={`${rowIndex}-${colIndex}`}
+              style={{
+                width: 20,
+                height: 20,
+                backgroundColor: grid[rowIndex][colIndex] ? 'pink' : undefined,
+                border: '1px solid black',
+              }}
+            ></div>
+          );
+        })
+      )}
+    </div>
+  );
 };
 
 export default App;
