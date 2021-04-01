@@ -15,18 +15,50 @@ const operations = [
   [1, 1],
 ];
 
+const generationColor = {
+  1: '#ff4d4d',
+  2: '#ff8080',
+  3: '#ffcccc',
+  4: '#ff5c33',
+  5: '#ff9980',
+  6: '#ffc34d',
+  7: '#ffe6b3',
+  8: '#80ff80',
+  9: '#80dfff',
+  10: '#df80ff',
+};
+
 const generateEmptyGrid = () => {
   const rows = [];
+  const cell = {
+    state: 0,
+    generation: 1,
+    color: generationColor[1],
+  };
   for (let i = 0; i < numRows; i++) {
-    rows.push(Array.from(Array(numCols), () => 0));
+    rows.push(Array.from(Array(numCols), () => cell));
   }
   return rows;
 };
 
 const generateRandomGrid = () => {
   const rows = [];
+  const activeCell = {
+    state: 1,
+    generation: 1,
+    color: generationColor[1],
+  };
+  const deadCell = {
+    state: 0,
+    generation: 1,
+    color: 'undefined',
+  };
   for (let i = 0; i < numRows; i++) {
-    rows.push(Array.from(Array(numCols), () => (Math.random() > 0.7 ? 1 : 0)));
+    rows.push(
+      Array.from(Array(numCols), () =>
+        Math.random() > 0.7 ? activeCell : deadCell
+      )
+    );
   }
   return rows;
 };
@@ -42,7 +74,8 @@ const App = () => {
 
   const handleCellClick = (rowIndex, colIndex) => {
     const newGrid = produce(grid, (gridCopy) => {
-      gridCopy[rowIndex][colIndex] = grid[rowIndex][colIndex] === 0 ? 1 : 0;
+      gridCopy[rowIndex][colIndex].state =
+        grid[rowIndex][colIndex].state === 0 ? 1 : 0;
     });
     setGrid(newGrid);
   };
@@ -79,19 +112,31 @@ const App = () => {
                 newColIndex >= 0 &&
                 newColIndex < numCols
               ) {
-                neighbors += currGrid[newRowIndex][newColIndex];
+                neighbors += currGrid[newRowIndex][newColIndex].state;
               }
             });
             if (neighbors < 2 || neighbors > 3) {
-              gridCopy[rowIndex][colIndex] = 0;
-            } else if (currGrid[rowIndex][colIndex] === 0 && neighbors === 3) {
-              gridCopy[rowIndex][colIndex] = 1;
+              gridCopy[rowIndex][colIndex].state = 0;
+            } else if (
+              currGrid[rowIndex][colIndex].state === 0 &&
+              neighbors === 3
+            ) {
+              const currGeneration =
+                gridCopy[rowIndex][colIndex].generation + 1;
+              const newColor =
+                currGeneration <= 10 ? generationColor[currGeneration] : '#000';
+              const newCell = {
+                state: 1,
+                generation: currGeneration,
+                color: newColor,
+              };
+              gridCopy[rowIndex][colIndex] = newCell;
             }
           }
         }
       });
     });
-    setTimeout(runSimulation, 1000);
+    setTimeout(runSimulation, 700);
   }, []);
 
   return (
@@ -107,14 +152,20 @@ const App = () => {
                 onClick={() => handleCellClick(rowIndex, colIndex)}
                 key={`${rowIndex}-${colIndex}`}
                 style={{
+                  fontSize: '0.70rem',
+                  textAlign: 'center',
                   width: 20,
                   height: 20,
-                  backgroundColor: grid[rowIndex][colIndex]
-                    ? 'pink'
+                  backgroundColor: grid[rowIndex][colIndex].state
+                    ? grid[rowIndex][colIndex].color
                     : undefined,
                   border: '1px solid black',
                 }}
-              ></div>
+              >
+                {grid[rowIndex][colIndex].state === 1
+                  ? grid[rowIndex][colIndex].generation
+                  : ''}
+              </div>
             );
           })
         )}
