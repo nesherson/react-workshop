@@ -95,4 +95,15 @@ const initialState = [
   
   // Add selector export statments below
   
-  
+  export const selectBoard = (state) => {
+    return state.board.map(card => {
+      return {
+        id: card.id,
+        contents: card.contents
+      };
+    });
+  }
+
+  export const selectVisibleIDs = (state) => {
+    return state.board.filter(card => card.visible).map(card => card.id);
+  } 
