@@ -17,7 +17,7 @@ export const Card = ({ id, contents }) => {
   // flip card action
   const flipHandler = (id) => {
     // Add action dispatch below
-    // dispatch(flipCard(id));
+    dispatch(flipCard(id));
   };
 
   let cardStyle = 'resting'
