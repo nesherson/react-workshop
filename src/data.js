@@ -1,15 +1,40 @@
-const allRecipesData = [
-  { id: 0, name: 'Biscuits', img: 'img/biscuits.jpg' },
-  { id: 1, name: 'Bulgogi', img: 'img/bulgogi.jpg' },
-  { id: 2, name: 'Calamari', img: 'img/calamari.jpg' },
-  { id: 3, name: 'Ceviche', img: 'img/ceviche.jpg' },
-  { id: 4, name: 'Cheeseburger', img: 'img/cheeseburger.jpg' },
-  { id: 5, name: 'Churrasco', img: 'img/churrasco.jpg' },
-  { id: 6, name: 'Dumplings', img: 'img/dumplings.jpg' },
-  { id: 7, name: 'Fish & Chips', img: 'img/fishnchips.jpg' },
-  { id: 8, name: 'Hummus', img: 'img/hummus.jpg' },
-  { id: 9, name: 'Masala Dosa', img: 'img/masaladosa.jpg' },
-  { id: 10, name: 'Pad Thai', img: 'img/padthai.jpg' },
+export const inventoryData = [
+  {
+    name: 'Hello World Hat',
+    price: 23.99,
+    img:
+      'https://static-assets.codecademy.com/Courses/Learn-Redux/codecademy-store/hello-world-hat.jpg',
+  },
+  {
+    name: 'Learn From Home Joggers',
+    price: 45.99,
+    img:
+      'https://static-assets.codecademy.com/Courses/Learn-Redux/codecademy-store/sweatpants.jpg',
+  },
+  {
+    name: 'Java Tee',
+    price: 17.99,
+    img:
+      'https://static-assets.codecademy.com/Courses/Learn-Redux/codecademy-store/java-tee.jpg',
+  },
+  {
+    name: 'Python Tee',
+    price: 17.99,
+    img:
+      'https://static-assets.codecademy.com/Courses/Learn-Redux/codecademy-store/python-tee.jpg',
+  },
+  {
+    name: 'SQL Tee',
+    price: 17.99,
+    img:
+      'https://static-assets.codecademy.com/Courses/Learn-Redux/codecademy-store/sql-tee.jpg',
+  },
+  {
+    name: 'Hello World Hoodie',
+    price: 49.99,
+    img:
+      'https://static-assets.codecademy.com/Courses/Learn-Redux/codecademy-store/hoodie.jpg',
+  },
 ];
 
-export default allRecipesData;
+export const currenciesData = ['USD', 'EUR', 'CAD'];
