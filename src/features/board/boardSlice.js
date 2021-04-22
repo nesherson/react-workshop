@@ -107,3 +107,8 @@ const initialState = [
   export const selectVisibleIDs = (state) => {
     return state.board.filter(card => card.visible).map(card => card.id);
   } 
+
+  export const selectMatchedIDs = (state) => {
+    return state.board.filter(card => card.matched).map(card => card.id);
+  }
+    

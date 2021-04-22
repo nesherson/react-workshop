@@ -2,6 +2,7 @@ import React from 'react';
 // Add import statements below
 import { useSelector, useDispatch } from 'react-redux';
 import { selectVisibleIDs } from '../../boardSlice.js'
+import { selectMatchedIDs } from '../../boardSlice.js';
 import { flipCard } from '../../boardSlice.js';
 
 
@@ -13,6 +14,7 @@ export const Card = ({ id, contents }) => {
   const dispatch = useDispatch();
   
   const visibleIDs = useSelector(selectVisibleIDs);
+  const matchedIDs = useSelector(selectMatchedIDs);
   
   // flip card action
   const flipHandler = (id) => {
@@ -29,20 +31,20 @@ export const Card = ({ id, contents }) => {
 
   // 1st if statement
   // implement card id array membership check
-  if (visibleIDs.includes(id)) {
+  if (visibleIDs.includes(id) || matchedIDs.includes(id)) {
     cardText = contents;
     click = () => {};
   }
 
   // 2nd if statement
   // implement card id array membership check
-  if (false) {
+  if (matchedIDs.includes(id)) {
     cardStyle = 'matched';
   }
 
   // 3rd if statement
   // implement number of flipped cards check
-  if (false) {
+  if (visibleIDs.length === 2) {
     click = () => {};
   }
 
