@@ -1,18 +1,33 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import AddTodoForm from './components/AddTodoForm';
-import TodoList from './components/TodoList';
-import TotalCompleteItems from './components/TotalCompleteItems';
+import './index.css';
 
 const App = () => {
 	return (
-		<div className='container bg-white p-4 mt-5'>
-			<h1>My Todo List</h1>
-			<AddTodoForm />
-			<TodoList />
-			<TotalCompleteItems />
-		</div>
+		<Navbar>
+			<NavItem icon='1'/>
+			<NavItem icon='2'/>
+			<NavItem icon='3'/>
+		</Navbar>
 	);
 };
 
 export default App;
+
+const Navbar = (props) => {
+	return (
+		<nav className='navbar'>
+			<ul className='navbar-nav'>
+				{ props.children }
+			</ul>
+		</nav>
+	);
+}
+
+const NavItem = (props) => {
+	return (
+		<li className='navItem'>
+			<a href="#" className='icon-button'>
+				{ props.icon }
+			</a>
+		</li>
+	);
+}
