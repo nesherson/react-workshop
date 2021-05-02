@@ -12,20 +12,45 @@ import { ReactComponent as PlusIcon } from './icons/plus.svg';
 
 const App = () => {
 
-	const [open, setOpen] = useState();
+	
 
 	return (
 		<Navbar>
 			<NavItem icon={<PlusIcon />}/>
 			<NavItem icon={<BellIcon />}/>
 			<NavItem icon={<MessengerIcon />}/>
+
 			<NavItem icon={<CaretIcon/>}>
+				<DropdownMenu />
 			</NavItem>
+				
 		</Navbar>
 	);
 };
 
 export default App;
+
+const DropdownMenu = () => {
+	const DropdownItem = (props) => {
+		return (
+			<a href="#" className='menu-item'>
+				<span className='icon-button'>{props.leftIcon}</span>
+				{ props.children }
+				{ props.rightIcon && <span className='icon-button icon-right'>{props.rightIcon}</span>}
+			</a>
+		);
+	}
+	return (
+		<div className='dropdown'>
+			<DropdownItem>My Profile</DropdownItem>
+			<DropdownItem
+				leftIcon={<CogIcon/>}
+				rightIcon={<ChevronIcon/>}>
+					Settings
+			</DropdownItem>	
+		</div>
+	);
+}
 
 const Navbar = (props) => {
 	return (
@@ -38,11 +63,14 @@ const Navbar = (props) => {
 }
 
 const NavItem = (props) => {
+	const [open, setOpen] = useState();
+
 	return (
 		<li className='navItem'>
-			<a href="#" className='icon-button'>
+			<a href="#" className='icon-button' onClick={() => setOpen(!open)}>
 				{ props.icon }
 			</a>
+			{ open && props.children}
 		</li>
 	);
 }
