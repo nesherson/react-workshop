@@ -26,6 +26,14 @@ class FullPost extends Component {
     }
   }
 
+  handleDataDelete = () => {
+    axios
+      .delete(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`)
+      .then((resp) => {
+        console.log(resp);
+      });
+  };
+
   render() {
     let post = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
 
@@ -41,7 +49,9 @@ class FullPost extends Component {
           <h1>{title}</h1>
           <p>{content}</p>
           <div className='Edit'>
-            <button className='Delete'>Delete</button>
+            <button onClick={this.handleDataDelete} className='Delete'>
+              Delete
+            </button>
           </div>
         </div>
       );
