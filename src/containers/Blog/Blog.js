@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, NavLink, Switch } from 'react-router-dom';
 import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
+import FullPost from './FullPost/FullPost';
 
 import './Blog.css';
 
@@ -13,16 +14,20 @@ class Blog extends Component {
           <nav>
             <ul>
               <li>
-                <Link to='/'>Home</Link>
+                <NavLink exact to='/posts/'>
+                  Posts
+                </NavLink>
               </li>
               <li>
-                <Link to='/new-post'>New Post</Link>
+                <NavLink to='/new-post'>New Post</NavLink>
               </li>
             </ul>
           </nav>
         </header>
-        <Route exact path='/' component={Posts} />
-        <Route path='/new-post' component={NewPost} />
+        <Switch>
+          <Route path='/posts' component={Posts} />
+          <Route path='/new-post' component={NewPost} />
+        </Switch>
       </div>
     );
   }
