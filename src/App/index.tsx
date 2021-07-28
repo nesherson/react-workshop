@@ -3,17 +3,22 @@ import React, {
   FormEvent,
   useEffect,
   useRef,
-  useState
+  useState,
 } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Todo, State } from "../type";
 import "./App.css";
 
+import {
+  createTodoActionCreator,
+  editTodoActionCreator,
+  toggleTodoActionCreator,
+  removeTodoActionCreator,
+  selectTodoActionCreator,
+} from "../redux-toolkit";
 
-const editedCount = 0;
 
 const App = function() {
-
   const dispatch = useDispatch();
   const todos = useSelector((state: State) => state.todos);
   const selectedTodoId = useSelector((state: State) => state.selectedTodo);
@@ -25,7 +30,8 @@ const App = function() {
   const editInput = useRef<HTMLInputElement>(null);
 
   const selectedTodo =
-    (selectedTodoId && todos.find(todo => todo.id === selectedTodoId)) || null;
+    (selectedTodoId && todos.find((todo) => todo.id === selectedTodoId)) ||
+    null;
 
   const handleNewInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setNewTodoInput(e.target.value);
