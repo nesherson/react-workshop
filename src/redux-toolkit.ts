@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { v1 as uuid } from 'uuid';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { v1 as uuid } from 'uuid'
+import { string } from 'yargs'
 
-import { Todo } from './type';
+import { Todo } from './type'
 
 const todosInitialState: Todo[] = [
     {
@@ -19,12 +20,43 @@ const todosInitialState: Todo[] = [
       description: "Learn Redux-ToolKit",
       isComplete: false,
     },
-  ];
+  ]
 
 
 const todosSlice = createSlice({
     name: 'todos',
     initialState: todosInitialState,
-    reducers: {}
+    reducers: {
+        create: {
+            reducer: (state, {payload}: PayloadAction<{id: string, description: string, isComplete: boolean}>) => {
+                state.push(payload)
+            },
+            prepare: ({description}: {description: string}) => ({
+                payload: {
+                    id: uuid(),
+                    description,
+                    isComplete: false
+                }
+            })
+        },
+        edit: (state, {payload}: PayloadAction<{ id: string, description: string}>) => {
+            const todoToEdit = state.find((todo) => todo.id === payload.id)
+            if (todoToEdit) {
+                todoToEdit.description = payload.description
+            }
+        },
+        toggle: (state, {payload}: PayloadAction<{ id: string, isComplete: boolean}>) => {
+            const todoToEdit = state.find((todo) => todo.id === payload.id)
+            if (todoToEdit) {
+                todoToEdit.isComplete = payload.isComplete
+            }
+        },
+        remove: (state, {payload}: PayloadAction<{ id: string}>) => {
+            const index = state.findIndex((todo) => todo.id === payload.id)
+            if (index !== -1) {
+                state.splice(index, 1)
+            }
+        }
+    }
 
-});
+})
